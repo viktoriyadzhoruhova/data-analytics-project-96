@@ -18,11 +18,13 @@ WITH last_paid_click AS (
         AND l.created_at >= s.visit_date
     WHERE
         s.medium IN ('cpc', 'cpm', 'cpa', 'youtube', 'cpp', 'tg', 'social')
-    ORDER BY
-        l.amount DESC NULLS LAST,
-        s.visit_date ASC,
-        s.source ASC,
-        s.medium ASC,
-        s.campaign ASC
 )
-SELECT * FROM last_paid_click;
+SELECT *
+FROM last_paid_click
+ORDER BY
+    visit_date ASC,
+    utm_source ASC,
+    utm_medium ASC,
+    utm_campaign ASC,
+    lead_id ASC;
+
