@@ -65,14 +65,16 @@ aggregated_data AS (
         COUNT(DISTINCT lpc.lead_id) AS leads_count,
         COUNT(
             DISTINCT CASE
-                WHEN lpc.closing_reason = 'Успешно реализовано'
+                WHEN
+                    lpc.closing_reason = 'Успешно реализовано'
                     OR lpc.status_id = 142
                         THEN lpc.lead_id
             END
         ) AS purchases_count,
         SUM(
             CASE
-                WHEN lpc.closing_reason = 'Успешно реализовано'
+                WHEN
+                    lpc.closing_reason = 'Успешно реализовано'
                     OR lpc.status_id = 142
                         THEN lpc.amount
                 ELSE 0
