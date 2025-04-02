@@ -6,11 +6,13 @@ WITH last_paid_click AS (
         source AS utm_source,
         medium AS utm_medium,
         campaign AS utm_campaign,
-        ROW_NUMBER() OVER (PARTITION BY visitor_id ORDER BY visit_date DESC) AS session_number
+        ROW_NUMBER() OVER (PARTITION BY visitor_id
+            ORDER BY visit_date DESC) AS session_number
     FROM sessions
     WHERE
         medium IN ('cpc', 'cpm', 'cpa', 'youtube', 'cpp', 'tg', 'social')
 ),
+
 latest_paid_click AS (
     SELECT
         visitor_id,
@@ -21,6 +23,7 @@ latest_paid_click AS (
     FROM last_paid_click
     WHERE session_number = 1
 ),
+
 attributed_leads AS (
     SELECT
         lpc.visitor_id,
@@ -38,6 +41,7 @@ attributed_leads AS (
     LEFT JOIN leads AS l
         ON lpc.visitor_id = l.visitor_id AND lpc.visit_date <= l.created_at
 )
+
 SELECT *
 FROM attributed_leads
 ORDER BY
