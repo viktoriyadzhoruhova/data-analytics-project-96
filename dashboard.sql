@@ -15,7 +15,7 @@ WITH last_paid_click AS (
         sessions AS s
     LEFT JOIN
         leads AS l
-        ON  s.visitor_id = l.visitor_id
+        ON s.visitor_id = l.visitor_id
             AND l.created_at >= s.visit_date
     WHERE s.medium IN ('cpc', 'cpm', 'cpa', 'youtube', 'cpp', 'tg', 'social')
 ),
@@ -65,22 +65,23 @@ aggregated_data AS (
         COUNT(
             DISTINCT CASE
                 WHEN lpc.closing_reason = 'Успешно реализовано'
-                OR lpc.status_id = 142
-            THEN lpc.lead_id
-                END
+                    OR lpc.status_id = 142
+                        THEN lpc.lead_id
+            END
         ) AS purchases_count,
         SUM(
             CASE
-                    WHEN lpc.closing_reason = 'Успешно реализовано' OR lpc.status_id = 142
+                WHEN lpc.closing_reason = 'Успешно реализовано'
+                    OR lpc.status_id = 142
                     THEN lpc.amount
-                    ELSE 0
-                END
-            ) AS revenue
-        FROM
-            last_paid_click AS lpc
-        LEFT JOIN
-            ad_costs AS ac
-            ON  lpc.visit_date = ac.campaign_date
+                ELSE 0
+            END
+        ) AS revenue
+    FROM
+        last_paid_click AS lpc
+    LEFT JOIN
+        ad_costs AS ac
+        ON lpc.visit_date = ac.campaign_date
             AND lpc.utm_source = ac.utm_source
             AND lpc.utm_medium = ac.utm_medium
             AND lpc.utm_campaign = ac.utm_campaign
