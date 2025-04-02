@@ -1,7 +1,6 @@
 -- SQL для подготовки данных для дашборда
-WITH
-    last_paid_click AS (
-SELECT
+WITH last_paid_click AS (
+    SELECT
         s.visitor_id,
         s.visit_date,
         s.source AS utm_source,
@@ -14,12 +13,11 @@ SELECT
         l.status_id
 FROM
         sessions AS s
-LEFT JOIN
+    LEFT JOIN
         leads AS l
-ON  s.visitor_id = l.visitor_id
+    ON  s.visitor_id = l.visitor_id
         AND l.created_at >= s.visit_date
-WHERE
-        s.medium IN ('cpc', 'cpm', 'cpa', 'youtube', 'cpp', 'tg', 'social')
+    WHERE s.medium IN ('cpc', 'cpm', 'cpa', 'youtube', 'cpp', 'tg', 'social')
 ),
 
 ad_costs AS (
@@ -54,6 +52,7 @@ ad_costs AS (
         utm_medium,
         utm_campaign
 ),
+
 aggregated_data AS (
     SELECT
         lpc.visit_date,
