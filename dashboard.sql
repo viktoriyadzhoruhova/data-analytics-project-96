@@ -68,7 +68,7 @@ aggregated_data AS (
                 WHEN
                     lpc.closing_reason = 'Успешно реализовано'
                     OR lpc.status_id = 142
-                        THEN lpc.lead_id
+                    THEN lpc.lead_id
             END
         ) AS purchases_count,
         SUM(
@@ -76,7 +76,7 @@ aggregated_data AS (
                 WHEN
                     lpc.closing_reason = 'Успешно реализовано'
                     OR lpc.status_id = 142
-                        THEN lpc.amount
+                    THEN lpc.amount
                 ELSE 0
             END
         ) AS revenue
