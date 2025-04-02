@@ -22,11 +22,12 @@ WITH
             sessions AS s
         LEFT JOIN
             leads AS l
-            ON s.visitor_id = l.visitor_id
-            AND l.created_at >= s.visit_date
+                ON  s.visitor_id = l.visitor_id
+                AND l.created_at >= s.visit_date
         WHERE
             s.medium IN ('cpc', 'cpm', 'cpa', 'youtube', 'cpp', 'tg', 'social')
     ),
+
     ad_costs AS (
         SELECT
             campaign_date,
@@ -59,6 +60,7 @@ WITH
             utm_medium,
             utm_campaign
     )
+
 SELECT
     lpc.visit_date,
     COUNT(DISTINCT lpc.visitor_id) AS visitors_count,
@@ -88,10 +90,10 @@ FROM
     last_paid_click AS lpc
 LEFT JOIN
     ad_costs AS ac
-    ON lpc.visit_date = ac.campaign_date
-    AND lpc.utm_source = ac.utm_source
-    AND lpc.utm_medium = ac.utm_medium
-    AND lpc.utm_campaign = ac.utm_campaign
+        ON  lpc.visit_date = ac.campaign_date
+        AND lpc.utm_source = ac.utm_source
+        AND lpc.utm_medium = ac.utm_medium
+        AND lpc.utm_campaign = ac.utm_campaign
 WHERE
     lpc.visit_rank = 1
 GROUP BY
