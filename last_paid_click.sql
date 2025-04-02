@@ -6,12 +6,14 @@ WITH last_paid_click AS (
         source AS utm_source,
         medium AS utm_medium,
         campaign AS utm_campaign,
-        ROW_NUMBER() OVER (PARTITION BY visitor_id
-            ORDER BY visit_date DESC) AS session_number
+        ROW_NUMBER() OVER (
+            PARTITION BY visitor_id
+            ORDER BY visit_date DESC
+        ) AS session_number
     FROM sessions
-    
-        WHERE
-            medium IN ('cpc', 'cpm', 'cpa', 'youtube', 'cpp', 'tg', 'social')
+
+    WHERE
+        medium IN ('cpc', 'cpm', 'cpa', 'youtube', 'cpp', 'tg', 'social')
 ),
 
 latest_paid_click AS (
