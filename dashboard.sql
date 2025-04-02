@@ -73,6 +73,3 @@ ORDER BY roi DESC NULLS LAST,
          utm_source ASC,
          utm_medium ASC,
          utm_campaign ASC;
-
--- Дополнительный SQL запрос для utm_source в графиках
-lower(utm_source)
